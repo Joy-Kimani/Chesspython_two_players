@@ -1,5 +1,4 @@
-# two player chess in python with Pygame!
-# part one, set up variables images and game loop
+# set up variables images and game loop
 
 import pygame
 
