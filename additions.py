@@ -1,12 +1,9 @@
-# import pygame
-
 import pygame
 from constants import *
 
 pygame.init()
 
 
-# draw main game board
 def draw_board():
     for i in range(32):
         column = i % 4
@@ -31,7 +28,6 @@ def draw_board():
             screen.blit(big_font.render('Select Piece to Promote Pawn', True, 'black'), (20, 820))
 
 
-# draw pieces onto board
 def draw_pieces():
     for i in range(len(white_pieces)):
         index = piece_list.index(white_pieces[i])
@@ -56,7 +52,6 @@ def draw_pieces():
                                                   100, 100], 2)
 
 
-# function to check all pieces valid options on board
 def check_options(pieces, locations, turn):
     global castling_moves
     moves_list = []
@@ -80,8 +75,7 @@ def check_options(pieces, locations, turn):
         all_moves_list.append(moves_list)
     return all_moves_list
 
-
-# check king valid moves
+s
 def check_king(position, color):
     moves_list = []
     castle_moves = check_castling()
@@ -91,7 +85,6 @@ def check_king(position, color):
     else:
         friends_list = black_locations
         enemies_list = white_locations
-    # 8 squares to check for kings, they can go one square any direction
     targets = [(1, 0), (1, 1), (1, -1), (-1, 0), (-1, 1), (-1, -1), (0, 1), (0, -1)]
     for i in range(8):
         target = (position[0] + targets[i][0], position[1] + targets[i][1])
@@ -100,7 +93,6 @@ def check_king(position, color):
     return moves_list, castle_moves
 
 
-# check queen valid moves
 def check_queen(position, color):
     moves_list = check_bishop(position, color)
     second_list = check_rook(position, color)
@@ -109,7 +101,6 @@ def check_queen(position, color):
     return moves_list
 
 
-# check bishop moves
 def check_bishop(position, color):
     moves_list = []
     if color == 'white':
@@ -145,7 +136,6 @@ def check_bishop(position, color):
     return moves_list
 
 
-# check rook moves
 def check_rook(position, color):
     moves_list = []
     if color == 'white':
@@ -181,7 +171,6 @@ def check_rook(position, color):
     return moves_list
 
 
-# check valid pawn moves
 def check_pawn(position, color):
     moves_list = []
     if color == 'white':
@@ -221,7 +210,6 @@ def check_pawn(position, color):
     return moves_list
 
 
-# check valid knight moves
 def check_knight(position, color):
     moves_list = []
     if color == 'white':
@@ -230,7 +218,6 @@ def check_knight(position, color):
     else:
         friends_list = black_locations
         enemies_list = white_locations
-    # 8 squares to check for knights, they can go two squares in one direction and one in another
     targets = [(1, 2), (1, -2), (2, 1), (2, -1), (-1, 2), (-1, -2), (-2, 1), (-2, -1)]
     for i in range(8):
         target = (position[0] + targets[i][0], position[1] + targets[i][1])
@@ -239,7 +226,6 @@ def check_knight(position, color):
     return moves_list
 
 
-# check for valid moves for just selected piece
 def check_valid_moves():
     if turn_step < 2:
         options_list = white_options
@@ -249,7 +235,6 @@ def check_valid_moves():
     return valid_options
 
 
-# draw valid moves on screen
 def draw_valid(moves):
     if turn_step < 2:
         color = 'red'
@@ -259,7 +244,6 @@ def draw_valid(moves):
         pygame.draw.circle(screen, color, (moves[i][0] * 100 + 50, moves[i][1] * 100 + 50), 5)
 
 
-# draw captured pieces on side of screen
 def draw_captured():
     for i in range(len(captured_pieces_white)):
         captured_piece = captured_pieces_white[i]
@@ -271,7 +255,6 @@ def draw_captured():
         screen.blit(small_white_images[index], (925, 5 + 50 * i))
 
 
-# draw a flashing square around king if in check
 def draw_check():
     global check
     check = False
@@ -303,7 +286,6 @@ def draw_game_over():
     screen.blit(font.render(f'Press ENTER to Restart!', True, 'white'), (210, 240))
 
 
-# check en passant because people on the internet won't stop bugging me for it
 def check_ep(old_coords, new_coords):
     if turn_step <= 1:
         index = white_locations.index(old_coords)
@@ -321,7 +303,6 @@ def check_ep(old_coords, new_coords):
     return ep_coords
 
 
-# add castling
 def check_castling():
     # king must not currently be in check, neither the rook nor king has moved previously, nothing between
     # and the king does not pass through or finish on an attacked piece
@@ -392,7 +373,6 @@ def draw_castling(moves):
                          (moves[i][1][0] * 100 + 50, moves[i][1][1] * 100 + 70), 2)
 
 
-# add pawn promotion
 def check_promotion():
     pawn_indexes = []
     white_promotion = False
@@ -443,8 +423,6 @@ def check_promo_select():
     elif black_promote and left_click and x_pos > 7 and y_pos < 4:
         black_pieces[promo_index] = black_promotions[y_pos]
 
-
-# main game loop
 black_options = check_options(black_pieces, black_locations, 'black')
 white_options = check_options(white_pieces, white_locations, 'white')
 run = True
@@ -469,7 +447,7 @@ while run:
         draw_valid(valid_moves)
         if selected_piece == 'king':
             draw_castling(castling_moves)
-    # event handling
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
@@ -498,7 +476,7 @@ while run:
                         black_pieces.pop(black_piece)
                         black_locations.pop(black_piece)
                         black_moved.pop(black_piece)
-                    # adding check if en passant pawn was captured
+                   
                     if click_coords == black_ep:
                         black_piece = black_locations.index((black_ep[0], black_ep[1] - 1))
                         captured_pieces_white.append(black_pieces[black_piece])
@@ -510,7 +488,7 @@ while run:
                     turn_step = 2
                     selection = 100
                     valid_moves = []
-                # add option to castle
+                
                 elif selection != 100 and selected_piece == 'king':
                     for q in range(len(castling_moves)):
                         if click_coords == castling_moves[q][0]:
@@ -559,7 +537,7 @@ while run:
                     turn_step = 0
                     selection = 100
                     valid_moves = []
-                # add option to castle
+               
                 elif selection != 100 and selected_piece == 'king':
                     for q in range(len(castling_moves)):
                         if click_coords == castling_moves[q][0]:
