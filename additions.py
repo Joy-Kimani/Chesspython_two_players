@@ -75,7 +75,6 @@ def check_options(pieces, locations, turn):
         all_moves_list.append(moves_list)
     return all_moves_list
 
-s
 def check_king(position, color):
     moves_list = []
     castle_moves = check_castling()
