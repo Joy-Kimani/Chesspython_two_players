@@ -171,7 +171,7 @@ def check_rook(position, color):
 
 
 def check_pawn(position, color):
-    moves_list = []
+    moves_list = []         
     if color == 'white':
         if (position[0], position[1] + 1) not in white_locations and \
                 (position[0], position[1] + 1) not in black_locations and position[1] < 7:
