@@ -1,9 +1,10 @@
+#imports and initialisation
 import pygame
 from constants import *
 
 pygame.init()
 
-
+#draw chess board
 def draw_board():
     for i in range(32):
         column = i % 4
@@ -27,7 +28,7 @@ def draw_board():
             pygame.draw.rect(screen, 'gold', [0, 800, WIDTH - 200, 100], 5)
             screen.blit(big_font.render('Select Piece to Promote Pawn', True, 'black'), (20, 820))
 
-
+#draw chess pieces
 def draw_pieces():
     for i in range(len(white_pieces)):
         index = piece_list.index(white_pieces[i])
@@ -51,7 +52,7 @@ def draw_pieces():
                 pygame.draw.rect(screen, 'blue', [black_locations[i][0] * 100 + 1, black_locations[i][1] * 100 + 1,
                                                   100, 100], 2)
 
-
+#check for available moves
 def check_options(pieces, locations, turn):
     global castling_moves
     moves_list = []
@@ -225,6 +226,7 @@ def check_knight(position, color):
     return moves_list
 
 
+#checks valid moves
 def check_valid_moves():
     if turn_step < 2:
         options_list = white_options
@@ -234,6 +236,7 @@ def check_valid_moves():
     return valid_options
 
 
+#draw valid moves
 def draw_valid(moves):
     if turn_step < 2:
         color = 'red'
@@ -243,6 +246,7 @@ def draw_valid(moves):
         pygame.draw.circle(screen, color, (moves[i][0] * 100 + 50, moves[i][1] * 100 + 50), 5)
 
 
+#draw captured pieces
 def draw_captured():
     for i in range(len(captured_pieces_white)):
         captured_piece = captured_pieces_white[i]
@@ -254,6 +258,7 @@ def draw_captured():
         screen.blit(small_white_images[index], (925, 5 + 50 * i))
 
 
+#draws an indicator if the king is in check
 def draw_check():
     global check
     check = False
@@ -278,13 +283,13 @@ def draw_check():
                         pygame.draw.rect(screen, 'dark blue', [black_locations[king_index][0] * 100 + 1,
                                                                black_locations[king_index][1] * 100 + 1, 100, 100], 5)
 
-
+#draw game over screen
 def draw_game_over():
     pygame.draw.rect(screen, 'black', [200, 200, 400, 70])
     screen.blit(font.render(f'{winner} won the game!', True, 'white'), (210, 210))
     screen.blit(font.render(f'Press ENTER to Restart!', True, 'white'), (210, 240))
 
-
+#handling en passant, castling, promotion
 def check_ep(old_coords, new_coords):
     if turn_step <= 1:
         index = white_locations.index(old_coords)
